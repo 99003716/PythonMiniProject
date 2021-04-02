@@ -1,4 +1,4 @@
-# PythonMiniProject
-This is a Flight Ticket booking application developed using Python. The user can book both Tickets and check status on the booked Ticket.
-In this application all the user has to do is to enter the Source and destination and the kind of privilege he wants then the application automatically produces Ticket fare time and a PNR number.
-Using this PNR number the user can always check his status of Flight and all travel related details.
+# Python_SDLC_MiniProject
+This is a Flight Ticket booking application developed using Python. The user can book both Tickets and check status oF the booked Ticket.
+In this application all the user has to do is to enter the Source and destination and the kind of privilege he wants by which the application automatically generates Ticket fare , Travel time and a PNR number and prompts the user to confirm the ticket.
+Using this PNR number the user can always check the status of his Flight and all travel related details.
