@@ -1,4 +1,5 @@
 import random
+import re
 class travel:
 
     
@@ -43,8 +44,12 @@ distance_time = {12:(5600, 5), 21:(5600, 5), 23:(8200,10), 32:(8200,10), 34:(210
 #Please update the distance and time data for calculations purposes.
 
 all_pnr = []
+all_details = []
 
-def main():
+def booking():
+    """To book Ticket"""
+
+
     src = input("FROM: ")
     dest = input("TO: ")
     dist = distance_time[int(str(destinations[src]) + str(destinations[dest]))][0]
@@ -56,25 +61,43 @@ def main():
     print(f"Booking Confirmed with Total Amount {p1.ticket.travel_fare()} press YES OR NO To Confirm")
     if input("") == "YES":
         print(f"TICKET CONFIRMED for {p1}")
-        all_pnr.append(p1)
+        #all_details.append(p1)   #Ticket will be saved in a global list.
+        with open('bookingdetails.txt', 'a') as b:
+            b.write(f"{p1}")
+            b.write("\n")
+
     else:
         print(f"BOOKING CANCELLED")
 
 def check_pnr(val):
+    """To check the details of the booked Ticket"""
 
-    for p1 in all_pnr:
-        if p1.PNR_no == val:
-            print("TICKET FOUND")
-            print(f"--------------------------------------\n| {p1.ticket.source}      >>>>>>>      {p1.ticket.destination}  |\n\n| DISTANCE                     {p1.ticket.distance} |\n\n| TIME:                     {p1.ticket.time} HRS |\n--------------------------------------")
-            break
+
+    with open('bookingdetails.txt', 'r') as f:
+        all_tickets = f.readlines()
+        for ticket in all_tickets:
+            for pnr in ticket:
+                all_pnr.append(pnr)
+        
+    if val in all_pnr:
+
+        
+        for p1 in all_details:
+            print(p1)
+            if int(p1.PNR_no) == int(val):
+                print("TICKET FOUND")
+                print(f"--------------------------------------\n| {p1.ticket.source}      >>>>>>>      {p1.ticket.destination}  |\n\n| DISTANCE                     {p1.ticket.distance} |\n\n| TIME:                     {p1.ticket.time} HRS |\n--------------------------------------")
+                break
+    else:
+        print("INCORRECT PNR NO OR TICKET NOT CONFIRMED")
 
 if __name__ == "__main__":
     while True:
         print("1.TICKET BOOKING OR 2.CHECK PNR STATUS AND -1 TO EXIT")
         n = int(input("ENTER OPTION: "))
         if n == 1:
-            main()
+            booking()
         elif n == 2:
-            check_pnr(int(input("ENTER PNR NO")))
+            check_pnr(input("ENTER PNR NO "))
         elif n == -1:
             break
