@@ -1,5 +1,7 @@
 import random
 import re
+
+
 class travel:
 
     
@@ -32,7 +34,7 @@ class PNR:
         self.ticket = ticket
     
     def __str__(self):
-        return f"PNR NO --> [{self.PNR_no}] Travelling From {self.ticket.source} To {self.ticket.destination}"
+        return f"PNR NO --> [{self.PNR_no}] Travelling From {self.ticket.source} To {self.ticket.destination} {(self.ticket.time,self.ticket.distance)}"
 
 #p1 = PNR("24613", t1)
 #print(p1)
@@ -52,52 +54,64 @@ def booking():
 
     src = input("FROM: ")
     dest = input("TO: ")
-    dist = distance_time[int(str(destinations[src]) + str(destinations[dest]))][0]
-    ti = distance_time[int(str(destinations[src]) + str(destinations[dest]))][1]
-    pri = input("FIRST CLASS OR ECONOMY: ")
-    
-    t1 = travel(src, dest, dist, ti, pri)
-    p1 = PNR(random.randrange(1, 1000000), t1)
-    print(f"Booking Confirmed with Total Amount {p1.ticket.travel_fare()} press YES OR NO To Confirm")
-    if input("") == "YES":
-        print(f"TICKET CONFIRMED for {p1}")
-        #all_details.append(p1)   #Ticket will be saved in a global list.
-        with open('bookingdetails.txt', 'a') as b:
-            b.write(f"{p1}")
-            b.write("\n")
+    try:
+        dist = distance_time[int(str(destinations[src]) + str(destinations[dest]))][0]
+        ti = distance_time[int(str(destinations[src]) + str(destinations[dest]))][1]
+        pri = input("FIRST CLASS OR ECONOMY: ")
+        
+        t1 = travel(src, dest, dist, ti, pri)
+        p1 = PNR(random.randrange(1, 1000000), t1)
+        print(f"Booking Confirmed with Total Amount {p1.ticket.travel_fare()} press YES OR NO To Confirm")
+        if input("") == "YES":
+            print(f"TICKET CONFIRMED for {p1}")
+            #all_details.append(p1)   #Ticket will be saved in a global list.
+            with open('bookingdetails.txt', 'a') as b:
+                b.write(f"{p1}")
+                b.write("\n")
 
-    else:
-        print(f"BOOKING CANCELLED")
+        else:
+            print(f"BOOKING CANCELLED")
+    except:
+        print("incorrect details entered")
 
-def check_pnr(val):
+def check_pnr(val):  #Only this function to be done.
     """To check the details of the booked Ticket"""
 
 
     with open('bookingdetails.txt', 'r') as f:
         all_tickets = f.readlines()
+        all_details = all_tickets
         for ticket in all_tickets:
-            for pnr in ticket:
-                all_pnr.append(pnr)
+            pnr = re.findall(r'[0-9]+', ticket)
+            for no in pnr:
+                all_pnr.append(no)
         
     if val in all_pnr:
 
-        
         for p1 in all_details:
-            print(p1)
-            if int(p1.PNR_no) == int(val):
-                print("TICKET FOUND")
-                print(f"--------------------------------------\n| {p1.ticket.source}      >>>>>>>      {p1.ticket.destination}  |\n\n| DISTANCE                     {p1.ticket.distance} |\n\n| TIME:                     {p1.ticket.time} HRS |\n--------------------------------------")
-                break
+            print("TICKET FOUND")
+            for source in re.findall(r'm [a-zA-Z ]+ T', p1):
+                src = source[2:-2]
+            for destination in re.findall(r'To [a-zA-Z]+', p1):
+                dest = destination[3:]
+            for time in re.findall(r'([0-9]+,)', p1):
+                ti = time[:-1]
+            for distance in re.findall(r'(,[0-9]+)', p1):
+                dist = distance[1:]
+            print(f"--------------------------------------\n| {src}      >>>>>>>      {dest}  |\n\n| DISTANCE                    {dist} KMS|\n\n| TIME:                         {ti} HRS |\n--------------------------------------")
+            break
+
     else:
         print("INCORRECT PNR NO OR TICKET NOT CONFIRMED")
 
+
 if __name__ == "__main__":
     while True:
-        print("1.TICKET BOOKING OR 2.CHECK PNR STATUS AND -1 TO EXIT")
+        print("1.TICKET BOOKING OR 2.CHECK PNR STATUS AND ANY KEY TO EXIT")
         n = int(input("ENTER OPTION: "))
         if n == 1:
             booking()
         elif n == 2:
             check_pnr(input("ENTER PNR NO "))
-        elif n == -1:
+        else:
             break
