@@ -3,8 +3,6 @@ import re
 
 
 class travel:
-
-    
     def __init__(self, source, destination, distance, time, privilege):
         self.source = source
         self.destination = destination
@@ -29,6 +27,7 @@ class travel:
 
 class PNR:
 
+    
     def __init__(self, PNR_no, ticket):
         self.PNR_no = PNR_no
         self.ticket = ticket
@@ -41,7 +40,12 @@ class PNR:
 
 
 destinations = {"New York":1, "London":2, "Beijing":3, "Tokyo":4, "Bengaluru":5, "Abu Dhabi":6}
-distance_time = {12:(5600, 5), 13:(11000,14), 14:(10900, 14), 15:(13360, 17), 16:(11040, 14), 21:(5600, 5), 23:(8200,10), 24:(8200,11), 25:(9570,9), 26:(5500,7), 31: (10980, 13), 32:(8200,10), 34:(2100, 3), 35:(5575, 10), 36:(6000, 9), 41:(10850, 13), 42:(6000,13), 43:(6700,11), 45:(8500,11), 46:(8200,13), 51:(13400,12), 52:(8000,11), 53:(7650,10), 54:(8500,11), 56:(2750,4), 61:(11040,15), 62:(5520, 8), 63:(6000, 7), 64:(8100, 9), 65:(2750,4)}
+distance_time = {12:(5600, 5), 13:(11000,14), 14:(10900, 14), 15:(13360, 17), 16:(11040, 14),
+                 21:(5600, 5), 23:(8200,10), 24:(8200,11), 25:(9570,9), 26:(5500,7),
+                 31:(10980, 13), 32:(8200,10), 34:(2100, 3), 35:(5575, 10), 36:(6000, 9),
+                 41:(10850, 13), 42:(6000,13), 43:(6700,11), 45:(8500,11), 46:(8200,13),
+                 51:(13400,12), 52:(8000,11), 53:(7650,10), 54:(8500,11), 56:(2750,4),
+                 61:(11040,15), 62:(5520, 8), 63:(6000, 7), 64:(8100, 9), 65:(2750,4)}
 
 #Please update the distance and time data for calculations purposes.
 
@@ -69,7 +73,7 @@ def booking():
                 b.write(f"{p1}")
                 b.write("\n")
 
-        else:
+        else: 
             print(f"BOOKING CANCELLED")
     except:
         print("incorrect details entered")
